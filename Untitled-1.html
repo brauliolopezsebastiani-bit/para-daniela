@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Daniela ❤️ Braulio</title>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Crimson+Pro:wght@200;400;600&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+--bg:#030102;
+--gold:#c5a059;
+--light:#fdfaf6;
+--border:rgba(197,160,89,.25);
+--glass:rgba(255,255,255,.03);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+font-family:'Crimson Pro',serif;
+background:var(--bg);
+color:var(--light);
+overflow-x:hidden;
+cursor:none;
+}
+
+/* ========== CURSOR PERSONALIZADO ========== */
+#custom-cursor{
+position:fixed;
+width:20px;
+height:20px;
+border:1px solid var(--gold);
+border-radius:50%;
+pointer-events:none;
+z-index:10000;
+transition:transform .15s ease;
+mix-blend-mode:screen;
+}
+#custom-cursor.clicked{
+transform:scale(1.5);
+}
+
+/* ========== FONDO ESPACIAL CON NEBULOSAS ========== */
+#stars{position:fixed;inset:0;z-index:-1;overflow:hidden;background:radial-gradient(ellipse at 20% 30%, rgba(30,20,60,.3), transparent 50%), radial-gradient(ellipse at 80% 70%, rgba(10,30,60,.25), transparent 50%), radial-gradient(ellipse at 50% 50%, rgba(20,10,40,.2), transparent 60%);}
+
+.nebula{
+position:absolute;
+border-radius:50%;
+filter:blur(80px);
+opacity:.15;
+animation:nebula-float 40s infinite ease-in-out;
+}
+.nebula:nth-child(1){
+width:600px;height:600px;
+background:radial-gradient(circle, rgba(100,50,150,.4), transparent);
+top:10%;left:5%;
+animation-duration:50s;
+}
+.nebula:nth-child(2){
+width:500px;height:500px;
+background:radial-gradient(circle, rgba(30,60,120,.3), transparent);
+top:60%;right:10%;
+animation-duration:60s;
+animation-delay:-10s;
+}
+.nebula:nth-child(3){
+width:700px;height:700px;
+background:radial-gradient(circle, rgba(80,40,100,.25), transparent);
+bottom:5%;left:30%;
+animation-duration:70s;
+animation-delay:-20s;
+}
+@keyframes nebula-float{
+0%,100%{transform:translate(0,0) scale(1)}
+33%{transform:translate(50px,-30px) scale(1.1)}
+66%{transform:translate(-30px,40px) scale(.9)}
+}
+
+#stars::before{
+content:'';position:absolute;inset:0;
+background:radial-gradient(1px 1px at 10% 20%, #fff, transparent), radial-gradient(1px 1px at 25% 45%, rgba(255,255,255,.6), transparent), radial-gradient(1px 1px at 40% 70%, #fff, transparent), radial-gradient(1px 1px at 60% 15%, rgba(255,255,255,.7), transparent), radial-gradient(1px 1px at 75% 55%, #fff, transparent);
+background-size:250px 250px;animation:stars1 200s linear infinite;opacity:.5;
+}
+#stars::after{
+content:'';position:absolute;inset:0;
+background:radial-gradient(1.5px 1.5px at 15% 30%, var(--gold), transparent), radial-gradient(1px 1px at 35% 60%, #fff, transparent), radial-gradient(2px 2px at 50% 10%, rgba(197,160,89,.8), transparent);
+background-size:300px 300px;animation:stars2 120s linear infinite;opacity:.6;
+}
+.stars-layer{
+position:absolute;inset:0;
+background:radial-gradient(2px 2px at 20% 50%, #fff, transparent), radial-gradient(1.5px 1.5px at 45% 25%, var(--gold), transparent);
+background-size:350px 350px;animation:stars3 80s linear infinite;opacity:.7;
+}
+.twinkle{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;animation:twinkle 3s infinite;}
+@keyframes stars1{to{transform:translateY(-2500px)}}
+@keyframes stars2{to{transform:translateY(-3000px)}}
+@keyframes stars3{to{transform:translateY(-3500px)}}
+@keyframes twinkle{0%,100%{opacity:.3;transform:scale(1)} 50%{opacity:1;transform:scale(1.5)}}
+
+/* ========== PARTÍCULAS DEL CURSOR ========== */
+.particle{
+position:fixed;
+width:4px;
+height:4px;
+background:var(--gold);
+border-radius:50%;
+pointer-events:none;
+z-index:9999;
+animation:particle-fade 1.5s ease-out forwards;
+box-shadow:0 0 8px var(--gold);
+}
+@keyframes particle-fade{
+0%{opacity:1;transform:translate(0,0) scale(1)}
+100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0)}
+}
+
+/* LOADER */
+#loader{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:9999;transition:1s;}
+.loader-box{text-align:center;width:80%;max-width:420px}
+.loader-title{font-family:'Italiana';letter-spacing:.4em;color:var(--gold);margin-bottom:2rem;font-size:1.2rem;}
+.loader-bar{height:1px;background:rgba(197,160,89,.2);position:relative;}
+.loader-fill{height:100%;width:0%;background:var(--gold);transition:.2s;}
+.loader-msg{margin-top:1rem;font-size:.65rem;letter-spacing:.3em;opacity:.5;font-family:'Montserrat';}
+
+/* INTRO */
+#intro{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:9000;transition:1s;flex-direction:column;text-align:center;}
+#intro h1{font-family:'Italiana';font-size:5rem;letter-spacing:.4em;}
+#intro p{letter-spacing:.7em;opacity:.5;margin-top:.5rem;font-family:'Montserrat';font-size:0.7rem;}
+#intro button{margin-top:4rem;background:none;border:1px solid var(--gold);color:var(--gold);padding:1.2rem 4rem;letter-spacing:.5em;cursor:none;transition:.6s;font-size:.7rem;font-family:'Montserrat';}
+#intro button:hover{background:var(--gold);color:var(--bg);letter-spacing:.7em;}
+
+/* LAYOUT */
+section{min-height:100vh;padding:140px 10%;max-width:1100px;margin:auto;display:flex;flex-direction:column;justify-content:center;}
+.label{font-family:'Montserrat';letter-spacing:.8em;font-size:.65rem;color:var(--gold);text-align:center;margin-bottom:2rem;}
+h2{font-family:'Italiana';font-size:3.5rem;text-align:center;margin-bottom:4rem;font-weight:100;}
+
+/* HERO */
+.hero-name{font-family:'Italiana';font-size:11rem;text-align:center;line-height:.9;background:linear-gradient(#fff,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:glow 6s infinite;}
+@keyframes glow{50%{filter:drop-shadow(0 0 30px rgba(197,160,89,.6))}}
+
+/* CONTADOR */
+.timer{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;max-width:800px;margin:auto;text-align:center;}
+.timer span{font-family:'Italiana';font-size:5rem;color:var(--gold);display:block;}
+.timer small{font-family:'Montserrat';font-size:.6rem;letter-spacing:.3em;opacity:.4;}
+
+/* CARTA */
+.letter{background:var(--glass);border:1px solid var(--border);padding:5rem 3rem;text-align:center;backdrop-filter:blur(6px);line-height:2;}
+.cursor{display:inline-block;width:2px;height:1.2em;background:var(--gold);animation:blink .8s infinite;vertical-align: middle;}
+@keyframes blink{50%{opacity:0}}
+
+/* 7 MESES */
+.months{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:6rem 0;text-align:center;}
+
+/* FINAL */
+.heart{font-size:2.5rem;color:var(--gold);cursor:none;margin-top:3rem;position:relative;display:inline-block;transition:.3s;}
+.heart:hover{transform:scale(1.1)}
+.heart::after{content:'';position:absolute;inset:-20px;border:1px solid var(--gold);border-radius:50%;animation:ripple 2s infinite;}
+@keyframes ripple{to{transform:scale(2.5);opacity:0}}
+
+/* ========== EXPLOSIÓN DE PARTÍCULAS ========== */
+.heart-particle{
+position:fixed;
+width:6px;
+height:6px;
+background:var(--gold);
+border-radius:50%;
+pointer-events:none;
+z-index:9999;
+box-shadow:0 0 10px var(--gold);
+animation:heart-explode 2s ease-out forwards;
+}
+@keyframes heart-explode{
+0%{opacity:1;transform:translate(0,0) scale(1)}
+100%{opacity:0;transform:translate(var(--hx),var(--hy)) scale(0) rotate(720deg)}
+}
+
+/* ========== PREGUNTA FINAL ========== */
+#final-question{
+display:none;
+opacity:0;
+margin-top:4rem;
+transition:opacity 2s;
+}
+#final-question h3{
+font-family:'Italiana';
+font-size:2.8rem;
+color:var(--gold);
+margin-bottom:3rem;
+letter-spacing:.1em;
+}
+.btn-container{
+display:flex;
+justify-content:center;
+gap:3rem;
+position:relative;
+min-height:120px;
+align-items:center;
+}
+#btn-si{
+background:var(--gold);
+color:var(--bg);
+border:none;
+padding:1.2rem 3.5rem;
+font-family:'Montserrat';
+letter-spacing:.4em;
+cursor:none;
+transition:.3s;
+font-size:.9rem;
+font-weight:600;
+}
+#btn-si:hover{
+transform:scale(1.1);
+box-shadow:0 0 30px rgba(197,160,89,.6);
+}
+#btn-no{
+background:transparent;
+border:1px solid rgba(255,255,255,.2);
+color:rgba(255,255,255,.5);
+padding:1.2rem 3.5rem;
+font-family:'Montserrat';
+letter-spacing:.4em;
+position:absolute;
+transition:.3s;
+font-size:.9rem;
+cursor:none;
+}
+
+/* ========== TARJETA FINAL ========== */
+#victory-card{
+display:none;
+opacity:0;
+margin-top:4rem;
+transition:opacity 3s;
+}
+.final-card{
+background:var(--glass);
+border:2px solid var(--gold);
+backdrop-filter:blur(10px);
+padding:4rem 3rem;
+max-width:600px;
+margin:auto;
+text-align:center;
+position:relative;
+}
+.final-card::before{
+content:'';
+position:absolute;
+inset:-2px;
+background:linear-gradient(45deg, var(--gold), transparent, var(--gold));
+border-radius:inherit;
+z-index:-1;
+animation:border-glow 3s infinite;
+}
+@keyframes border-glow{
+0%,100%{opacity:.3}
+50%{opacity:.8}
+}
+.final-card h2{
+font-family:'Italiana';
+font-size:3.5rem;
+color:var(--gold);
+margin-bottom:2rem;
+}
+.final-card p{
+font-size:1.3rem;
+line-height:2;
+opacity:.9;
+margin-bottom:2rem;
+}
+.final-icon{
+font-size:5rem;
+margin:2rem 0;
+animation:float 3s infinite ease-in-out;
+}
+@keyframes float{
+0%,100%{transform:translateY(0)}
+50%{transform:translateY(-20px)}
+}
+
+/* ========== REVEAL CON BLUR ========== */
+.reveal{opacity:0;filter:blur(10px);transform:translateY(40px);transition:opacity 1.5s, filter 1.5s, transform 1.5s}
+.reveal.show{opacity:1;filter:blur(0);transform:none}
+
+footer{text-align:center;opacity:.3;letter-spacing:.5em;font-size:.6rem;padding:4rem 0;font-family:'Montserrat';}
+
+@media(max-width:768px){
+.hero-name{font-size:6rem}
+.timer{grid-template-columns:repeat(2,1fr)}
+section{padding:110px 7%}
+h2{font-size:2.5rem}
+body{cursor:auto}
+#custom-cursor{display:none}
+.btn-container{flex-direction:column;gap:2rem}
+#btn-no{position:relative!important}
+}
+</style>
+</head>
+
+<body>
+
+<div id="custom-cursor"></div>
+
+<div id="stars">
+<div class="nebula"></div>
+<div class="nebula"></div>
+<div class="nebula"></div>
+<div class="stars-layer"></div>
+</div>
+
+<!-- LOADER -->
+<div id="loader">
+<div class="loader-box">
+<div class="loader-title">Escribiendo nuestra historia</div>
+<div class="loader-bar"><div class="loader-fill" id="fill"></div></div>
+<div class="loader-msg" id="lmsg">Entrelazando destinos…</div>
+</div>
+</div>
+
+<!-- INTRO -->
+<div id="intro">
+<h1>D ❤️ B</h1>
+<p>EL COMIENZO DE LO ETERNO</p>
+<button onclick="start()">DESCUBRIR</button>
+</div>
+
+<main id="main" style="display:none;opacity:0;transition:2s">
+
+<!-- HERO -->
+<section>
+<h1 class="hero-name">Daniela</h1>
+<p style="text-align:center;letter-spacing:.7em;opacity:.4;font-size:.7rem;font-family:'Montserrat'">LA RAZÓN DE MI EXISTENCIA</p>
+<div style="height:80px;width:1px;background:linear-gradient(var(--gold),transparent);margin:5rem auto 0"></div>
+<p style="max-width:850px;margin:3rem auto 0;text-align:center;opacity:.8;font-size:1.25rem;line-height:2; font-weight: 300;">
+A veces me pregunto cómo era mi vida antes de ti y siempre llego a la misma conclusión: era buena, pero no era plena. No porque me faltara algo, sino porque aún no sabía que existía alguien capaz de transformar lo cotidiano en algo especial sin siquiera intentarlo. Llegaste de una forma tan natural que ni siquiera me di cuenta del momento exacto en que todo cambió, solo sé que desde entonces nada volvió a ser igual.
+<br><br>
+Contigo entendí que el amor no siempre llega con ruido ni con grandes promesas. A veces llega en silencio, se queda, y poco a poco empieza a acomodar todo por dentro. Eres esa calma que me acompaña incluso en los días difíciles, esa sonrisa que me devuelve la tranquilidad y ese pensamiento constante que aparece sin avisar.
+<br><br>
+No eres solo parte de mi vida, te convertiste en un lugar seguro. En alguien con quien puedo ser yo mismo, sin filtros ni miedos. Gracias por ser tú, por quedarte y por hacer que cada día a tu lado tenga un sentido que antes no conocía.
+</p>
+</section>
+
+<!-- TIEMPO -->
+<section class="reveal">
+<span class="label">CAPÍTULO I · EL TIEMPO</span>
+<h2>Nuestra Eternidad</h2>
+<div class="timer">
+<div><span id="d">0</span><small>DÍAS</small></div>
+<div><span id="h">0</span><small>HORAS</small></div>
+<div><span id="m">0</span><small>MINUTOS</small></div>
+<div><span id="s">0</span><small>SEGUNDOS</small></div>
+</div>
+<p style="text-align:center;margin-top:4rem;opacity:.8;font-size:1.2rem;max-width:850px;margin-left:auto;margin-right:auto;line-height:2; font-weight: 300;">
+El tiempo contigo dejó de ser una simple medida. Ya no se cuenta en horas ni en días, sino en momentos que se quedan grabados sin pedir permiso. En risas espontáneas, en conversaciones que se alargan más de lo planeado y en silencios cómodos donde no hace falta decir nada para sentirse cerca.
+<br><br>
+Desde aquel 10 de julio, mi vida empezó a moverse con otro ritmo. Uno más sincero, más tranquilo y mucho más real. Cada día que pasa no es solo una cifra más, es una experiencia compartida, una prueba de que lo que estamos construyendo tiene bases firmes.
+<br><br>
+No contamos el tiempo para ver cuánto llevamos, sino para agradecer todo lo que hemos vivido y valorar cada instante que nos ha traído hasta aquí. Porque si algo me has enseñado, es que cuando el amor es verdadero, el tiempo no se pierde, se disfruta.
+</p>
+</section>
+
+<!-- CARTA -->
+<section class="reveal" id="letter-sec">
+<span class="label">CAPÍTULO II · LAS PALABRAS</span>
+<h2>Lo que siento por ti</h2>
+<div class="letter">
+<span id="text" style="font-size: 1.25rem; font-weight: 300; white-space: pre-line;"></span><span class="cursor"></span>
+<div id="sign" style="opacity:0;margin-top:4rem;font-family:'Italiana';font-size:2.2rem;color:var(--gold)">
+Con todo mi amor, Braulio
+</div>
+</div>
+</section>
+
+<!-- 7 MESES -->
+<section class="reveal">
+<span class="label">CAPÍTULO III · 7 MESES</span>
+<div class="months">
+<h2 style="margin-bottom:2rem;color:var(--gold)">Felices 7 meses, mi amor ❤️</h2>
+<p style="max-width:850px;margin:auto;opacity:.85;font-size:1.25rem;line-height:2; font-weight: 300;">
+Siete meses pueden parecer poco tiempo para algunos, pero para nosotros han sido suficientes para construir algo verdadero. No se trata de la cantidad de tiempo, sino de todo lo que hemos vivido dentro de él. De los momentos felices, de los días tranquilos y también de aquellos que nos enseñaron a ser más pacientes y comprensivos.
+<br><br>
+En estos siete meses aprendí a conocerte más allá de lo evidente. A entender tus silencios, a valorar tus palabras y a cuidar tus emociones. Aprendí que amar también es escuchar, esperar y estar presente incluso cuando no sabemos exactamente qué decir.
+<br><br>
+Hemos compartido risas, conversaciones largas, planes simples y sueños que poco a poco van tomando forma. Cada recuerdo, por pequeño que parezca, se convirtió en una parte importante de nuestra historia. Nada de esto se siente forzado; todo ha crecido de manera natural, como crecen las cosas que están hechas para durar.
+<br><br>
+Gracias por estos siete meses de compañía, de apoyo y de cariño sincero. Gracias por hacerme sentir que no camino solo y que hay alguien con quien compartir lo bueno y lo difícil. Felices 7 meses, mi amor. Esto no es un punto final, es apenas el comienzo.
+</p>
+</div>
+</section>
+
+<!-- PROMESA -->
+<section class="reveal">
+<span class="label">CAPÍTULO IV</span>
+<h2>Mi promesa</h2>
+<p style="text-align:center;max-width:850px;margin:auto;opacity:.85;font-size:1.3rem;line-height:2; font-weight: 300;">
+No quiero prometerte un amor perfecto, porque lo perfecto no existe. Lo que sí quiero prometerte es algo real: estar presente. Acompañarte cuando sonrías y cuando no todo salga como esperabas. Sostener tu mano cuando el camino se vuelva pesado y caminar a tu lado cuando todo fluya.
+<br><br>
+Prometo cuidarte con respeto, admirar tus sueños y nunca dejar de elegirte. Prometo crecer contigo, aprender de nuestros errores y celebrar cada paso que demos juntos. No te prometo una vida sin dificultades, pero sí una vida compartida, honesta y llena de un amor que se construye todos los días.
+<br><br>
+Mi promesa es simple, pero profunda: quererte bien, quererte de verdad y seguir construyendo contigo este lugar al que ambos podamos llamar hogar.
+</p>
+<div style="text-align:center">
+<div class="heart" id="main-heart" onclick="finalLove(event)">♥</div>
+</div>
+</section>
+
+<!-- PREGUNTA FINAL -->
+<section class="reveal" style="min-height:100vh">
+<div id="final-question">
+<span class="label">EL MOMENTO DE LA VERDAD</span>
+<h3>¿Quieres seguir escribiendo esta historia conmigo?</h3>
+<div class="btn-container">
+<button id="btn-si" onclick="celebrate()">SÍ, SIEMPRE</button>
+<button id="btn-no" onmouseover="moveNo()" ontouchstart="moveNo()">NO</button>
+</div>
+</div>
+
+<!-- TARJETA FINAL -->
+<div id="victory-card">
+<div class="final-card">
+<div class="final-icon">✨💫✨</div>
+<h2>¡Sabía que dirías que sí!</h2>
+<p>Porque lo nuestro no es casualidad, es destino. Gracias por elegirme cada día, por creer en nosotros y por hacer de esta historia algo único e irrepetible.</p>
+<div style="font-family:'Italiana';font-size:2.5rem;color:var(--gold);margin:2rem 0">
+Daniela y Braulio
+</div>
+<p style="font-size:1rem;opacity:.6;letter-spacing:.3em">10 DE JULIO DE 2025 · POR SIEMPRE</p>
+<div style="margin-top:3rem;font-size:3rem">❤️</div>
+</div>
+</div>
+</section>
+
+<footer>
+DANIELA y BRAULIO · 10/07/2025 ∞
+</footer>
+
+</main>
+
+<script>
+// ========== CURSOR PERSONALIZADO ==========
+const cursor=document.getElementById('custom-cursor');
+let mouseX=0,mouseY=0;
+document.addEventListener('mousemove',e=>{
+mouseX=e.clientX;
+mouseY=e.clientY;
+cursor.style.left=mouseX+'px';
+cursor.style.top=mouseY+'px';
+createParticle(mouseX,mouseY);
+});
+document.addEventListener('mousedown',()=>cursor.classList.add('clicked'));
+document.addEventListener('mouseup',()=>cursor.classList.remove('clicked'));
+
+// ========== PARTÍCULAS DEL CURSOR ==========
+let particleCount=0;
+function createParticle(x,y){
+if(particleCount%3!==0){particleCount++;return}
+particleCount++;
+const p=document.createElement('div');
+p.className='particle';
+const angle=Math.random()*Math.PI*2;
+const distance=Math.random()*50+30;
+p.style.left=x+'px';
+p.style.top=y+'px';
+p.style.setProperty('--tx',Math.cos(angle)*distance+'px');
+p.style.setProperty('--ty',Math.sin(angle)*distance+'px');
+document.body.appendChild(p);
+setTimeout(()=>p.remove(),1500);
+}
+
+// ========== ESTRELLAS TITILANTES ==========
+function createTwinkleStars(){
+const container=document.getElementById('stars');
+for(let i=0;i<50;i++){
+const star=document.createElement('div');
+star.className='twinkle';
+star.style.left=Math.random()*100+'%';
+star.style.top=Math.random()*100+'%';
+star.style.animationDelay=Math.random()*3+'s';
+container.appendChild(star);
+}
+}
+createTwinkleStars();
+
+// ========== LOADER ==========
+const msgs=["Iniciando recuerdos…","Sincronizando latidos…","Redactando el destino…","Listo para ti ❤️"];
+let p=0;
+const load=setInterval(()=>{
+p++;
+fill.style.width=p+"%";
+if(p%25===0)lmsg.innerText=msgs[p/25-1];
+if(p>=100){
+clearInterval(load);
+setTimeout(()=>{
+loader.style.opacity=0;
+setTimeout(()=>{
+loader.remove();
+intro.style.display="flex";
+},1000);
+},500);
+}
+},35);
+
+function start(){
+intro.style.opacity=0;
+setTimeout(()=>{
+intro.remove();
+main.style.display="block";
+setTimeout(()=>main.style.opacity=1,100);
+},1000);
+}
+
+// ========== CONTADOR ==========
+const startDate=new Date("July 10, 2025 00:00:00").getTime();
+setInterval(()=>{
+const now=new Date().getTime();
+const diff=now-startDate;
+d.innerText=Math.floor(diff/86400000);
+h.innerText=Math.floor(diff%86400000/3600000);
+m.innerText=Math.floor(diff%3600000/60000);
+s.innerText=Math.floor(diff%60000/1000);
+},1000);
+
+// ========== EFECTO DE ESCRITURA ==========
+const text=`Mi amor, a veces me cuesta poner en palabras todo lo que siento por ti, no porque sea poco, sino porque es tanto que se me escapa entre pensamientos. Desde que llegaste a mi vida, muchas cosas comenzaron a tener sentido sin que yo las buscara. No fue algo planeado ni forzado, simplemente pasó, como pasan las cosas que están destinadas a quedarse.
+
+Contigo aprendí que el amor no siempre se siente como una emoción intensa que lo sacude todo, sino como una tranquilidad que se instala poco a poco. Es saber que hay alguien ahí, incluso cuando no estamos juntos. Es pensar en ti sin esfuerzo, sonreír de la nada y sentir que todo está bien solo por saber que existes.
+
+Me gusta cómo somos cuando estamos juntos. La confianza que se fue formando sin presiones, la forma en que podemos hablar de todo y también de nada. Me gusta que no tengamos que fingir, que podamos ser reales, con nuestras virtudes y nuestras imperfecciones. Contigo no siento la necesidad de aparentar nada, y eso, para mí, lo significa todo.
+
+Gracias por tu paciencia, por tu manera tan bonita de querer y por enseñarme que el amor no se trata de controlar, sino de acompañar. Gracias por escucharme, por entenderme incluso cuando no sé explicarme bien y por darme un lugar donde siempre me siento seguro.
+
+No sé qué nos depara el futuro, y la verdad no necesito saberlo. Me basta con saber que quiero vivirlo contigo, sin apuros, sin promesas exageradas, pero con la certeza de que lo nuestro es real. Elegirte cada día es algo que nace de mí de manera natural, y mientras caminemos juntos, cualquier camino valdrá la pena.`;
+
+let i=0,active=false;
+function type(){
+if(i<text.length){
+document.getElementById("text").innerHTML+=text[i];
+setTimeout(type,text[i]=='.'?450:35);
+i++;
+}else{
+document.querySelector(".cursor").style.display="none";
+sign.style.opacity=1;
+}
+}
+
+// ========== REVEAL CON BLUR ==========
+const obs=new IntersectionObserver(e=>{
+e.forEach(x=>{
+if(x.isIntersecting){
+x.target.classList.add("show");
+if(x.target.id==="letter-sec"&&!active){
+active=true;
+setTimeout(type,1000);
+}
+}
+});
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// ========== EXPLOSIÓN DEL CORAZÓN ==========
+let heartClicked=false;
+function finalLove(e){
+if(heartClicked)return;
+heartClicked=true;
+const heart=e.target;
+const rect=heart.getBoundingClientRect();
+const cx=rect.left+rect.width/2;
+const cy=rect.top+rect.height/2;
+
+for(let i=0;i<120;i++){
+const p=document.createElement('div');
+p.className='heart-particle';
+const angle=Math.random()*Math.PI*2;
+const distance=Math.random()*400+100;
+p.style.left=cx+'px';
+p.style.top=cy+'px';
+p.style.setProperty('--hx',Math.cos(angle)*distance+'px');
+p.style.setProperty('--hy',Math.sin(angle)*distance+'px');
+document.body.appendChild(p);
+setTimeout(()=>p.remove(),2000);
+}
+
+heart.style.opacity="0";
+setTimeout(()=>{
+heart.style.display="none";
+const q=document.getElementById("final-question");
+q.style.display="block";
+setTimeout(()=>q.style.opacity="1",100);
+},1000);
+}
+
+// ========== BOTÓN "NO" QUE ESCAPA ==========
+function moveNo(){
+const btn=document.getElementById("btn-no");
+const container=document.querySelector('.btn-container');
+const containerRect=container.getBoundingClientRect();
+const btnRect=btn.getBoundingClientRect();
+const maxX=containerRect.width-btnRect.width;
+const maxY=containerRect.height-btnRect.height;
+const x=Math.random()*(maxX-100)-maxX/2;
+const y=Math.random()*(maxY-50)-maxY/2;
+btn.style.transform=`translate(${x}px, ${y}px)`;
+btn.style.borderColor="rgba(197,160,89,.5)";
+btn.style.color="rgba(197,160,89,.8)";
+}
+
+// ========== CELEBRACIÓN FINAL ==========
+function celebrate(){
+document.getElementById("final-question").style.opacity="0";
+setTimeout(()=>{
+document.getElementById("final-question").style.display="none";
+const v=document.getElementById("victory-card");
+v.style.display="block";
+setTimeout(()=>v.style.opacity="1",100);
+
+// Fuegos artificiales dorados
+for(let i=0;i<300;i++){
+setTimeout(createFirework,i*15);
+}
+},1000);
+}
+
+function createFirework(){
+const p=document.createElement('div');
+p.className='heart-particle';
+p.style.background=Math.random()>.5?'var(--gold)':'#fff';
+p.style.left=Math.random()*window.innerWidth+'px';
+p.style.top=window.innerHeight+'px';
+const angle=Math.random()*Math.PI*2;
+const distance=Math.random()*window.innerHeight+200;
+p.style.setProperty('--hx',Math.cos(angle)*200+'px');
+p.style.setProperty('--hy',-distance+'px');
+document.body.appendChild(p);
+setTimeout(()=>p.remove(),3000);
+}
+</script>
+
+</body>
+</html>
